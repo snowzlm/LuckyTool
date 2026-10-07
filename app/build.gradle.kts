@@ -39,10 +39,14 @@ android {
             enableV3Signing = true
             enableV4Signing = null
 
-            storeFile = file(rootProject.extra.get("storeFile") as String)
-            storePassword = rootProject.extra.get("storePassword") as String
-            keyAlias = rootProject.extra.get("keyAlias") as String
-            keyPassword = rootProject.extra.get("keyPassword") as String
+            // Skip signing config when storeFile is empty (CI environment)
+            val storeFilePath = rootProject.extra.get("storeFile") as? String
+            if (!storeFilePath.isNullOrEmpty()) {
+                storeFile = file(storeFilePath)
+                storePassword = rootProject.extra.get("storePassword") as String
+                keyAlias = rootProject.extra.get("keyAlias") as String
+                keyPassword = rootProject.extra.get("keyPassword") as String
+            }
         }
     }
     buildTypes {
