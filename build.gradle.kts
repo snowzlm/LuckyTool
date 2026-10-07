@@ -4,7 +4,7 @@ import java.util.Properties
 val keystorePropertiesFile: File = rootProject.file("keystore/keystore.properties")
 val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
 }
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
